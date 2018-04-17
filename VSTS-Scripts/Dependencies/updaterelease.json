@@ -1,0 +1,393 @@
+{
+    "source": "script",
+    "id": 0,
+    "revision": 1,
+    "name": "",
+    "description": null,
+    "createdBy": null,
+    "createdOn": "0001-01-01T00:00:00",
+    "modifiedBy": null,
+    "modifiedOn": "0001-01-01T00:00:00",
+    "isDeleted": false,
+    "path": null,
+    "variables": {},
+    "variableGroups": [],
+    "environments": [
+        {
+            "id": 0,
+            "name": "prerelease",
+			"rank": 1,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 0
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": false,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": "beforeGates"
+                }
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 1
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": false,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": "afterSuccessfulGates"
+                }
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": []
+                        },
+                        "queueId": null,
+                        "demands": [],
+                        "enableAccessToken": false
+                    },
+                    "rank": 1,
+                    "phaseType": "agentBasedDeployment",
+                    "name": "Agent phase",
+                    "workflowTasks": [
+                        {
+                            "taskId": "5541a522-603c-47ad-91fc-a4b1d163081b",
+                            "version": "2.*",
+                            "name": "dotnet push pre release",
+                            "refName": "DotNetCoreCLI1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "command": "push",
+                                "publishWebProjects": "true",
+                                "projects": "",
+                                "custom": "",
+                                "arguments": "",
+                                "publishTestResults": "true",
+                                "zipAfterPublish": "true",
+                                "modifyOutputPath": "true",
+                                "selectOrConfig": "select",
+                                "feedRestore": "",
+                                "includeNuGetOrg": "true",
+                                "nugetConfigPath": "",
+                                "externalEndpoints": "",
+                                "noCache": "false",
+                                "packagesDirectory": "",
+                                "verbosityRestore": "Detailed",
+                                "searchPatternPush": "**/pre/*.nupkg",
+                                "nuGetFeedType": "internal",
+                                "feedPublish": "75b4cc39-5fcb-4988-9982-1735fe26e096",
+                                "externalEndpoint": "",
+                                "searchPatternPack": "**/*.csproj",
+                                "configurationToPack": "$(BuildConfiguration)",
+                                "outputDir": "$(Build.ArtifactStagingDirectory)",
+                                "nobuild": "false",
+                                "versioningScheme": "off",
+                                "versionEnvVar": "",
+                                "requestedMajorVersion": "1",
+                                "requestedMinorVersion": "0",
+                                "requestedPatchVersion": "0",
+                                "buildProperties": "",
+                                "verbosityPack": "Detailed",
+                                "workingDirectory": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true,
+                "badgeEnabled": false,
+                "autoLinkWorkItems": false
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "ReleaseStarted",
+                    "conditionType": "event",
+                    "value": ""
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {},
+			"preDeploymentGates": {
+                "id": 0,
+                "gatesOptions": {
+                    "isEnabled": false,
+                    "timeout": 1440,
+                    "samplingInterval": 15,
+                    "stabilizationTime": 15
+                },
+                "gates": []
+            },
+            "postDeploymentGates": {
+                "id": 0,
+                "gatesOptions": {
+                    "isEnabled": false,
+                    "timeout": 1440,
+                    "samplingInterval": 15,
+                    "stabilizationTime": 15
+                },
+                "gates": []
+            },
+            "badgeUrl": "https://INSTANCE.vsrm.visualstudio.com/_apis/public/Release/badge/c3f52ddf-7871-4832-9ba7-391a3bf89665/11/19"
+        },
+        {
+            "id": 1,
+            "name": "release",
+            "rank": 2,
+            "owner": {
+                "displayName": "Script",
+                "url": null,
+                "id": "f5d98f2f-58cc-4abf-bf02-84198fac9cc9",
+                "uniqueName": null,
+                "imageUrl": null,
+                "descriptor": null
+            },
+            "variables": {},
+            "variableGroups": [],
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": false,
+                        "isNotificationOn": false,
+                        "approver": {
+                            "displayName": "Keith Cornell",
+                            "url": "https://p4656a617-7616-4b7e-af6a-32b205db5a05.codex.ms/vssps/_apis/Identities/7ab3148e-783a-6992-9d69-a7734ad0d33a",
+                            "id": "7ab3148e-783a-6992-9d69-a7734ad0d33a",
+                            "uniqueName": "rmullett@INSTANCE.com",
+                            "imageUrl": "https://INSTANCE.visualstudio.com/_api/_common/identityImage?id=7ab3148e-783a-6992-9d69-a7734ad0d33a",
+                            "descriptor": "aad.N2FiMzE0OGUtNzgzYS03OTkyLTlkNjktYTc3MzRhZDBkMzNh"
+                        },
+                        "id": 1
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": true,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": "beforeGates"
+                }
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 1
+                    }
+                ],
+                "approvalOptions": {
+                    "requiredApproverCount": null,
+                    "releaseCreatorCanBeApprover": true,
+                    "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+                    "enforceIdentityRevalidation": false,
+                    "timeoutInMinutes": 0,
+                    "executionOrder": "afterSuccessfulGates"
+                }
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {
+                            "downloadInputs": []
+                        },
+                        "queueId": null,
+                        "demands": [],
+                        "enableAccessToken": false
+                    },
+                    "rank": 1,
+                    "phaseType": "agentBasedDeployment",
+                    "name": "Agent phase",
+                    "workflowTasks": [
+                        {
+                            "taskId": "5541a522-603c-47ad-91fc-a4b1d163081b",
+                            "version": "2.*",
+                            "name": "dotnet push",
+                            "refName": "DotNetCoreCLI1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "command": "push",
+                                "publishWebProjects": "true",
+                                "projects": "",
+                                "custom": "",
+                                "arguments": "",
+                                "publishTestResults": "true",
+                                "zipAfterPublish": "true",
+                                "modifyOutputPath": "true",
+                                "selectOrConfig": "select",
+                                "feedRestore": "",
+                                "includeNuGetOrg": "true",
+                                "nugetConfigPath": "",
+                                "externalEndpoints": "",
+                                "noCache": "false",
+                                "packagesDirectory": "",
+                                "verbosityRestore": "Detailed",
+                                "searchPatternPush": "**/release/*.nupkg",
+                                "nuGetFeedType": "internal",
+                                "feedPublish": "75b4cc39-5fcb-4988-9982-1735fe26e096",
+                                "externalEndpoint": "",
+                                "searchPatternPack": "**/*.csproj",
+                                "configurationToPack": "$(BuildConfiguration)",
+                                "outputDir": "$(Build.ArtifactStagingDirectory)",
+                                "nobuild": "false",
+                                "versioningScheme": "off",
+                                "versionEnvVar": "",
+                                "requestedMajorVersion": "1",
+                                "requestedMinorVersion": "0",
+                                "requestedPatchVersion": "0",
+                                "buildProperties": "",
+                                "verbosityPack": "Detailed",
+                                "workingDirectory": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true,
+                "ba100 10540  100 10540    0     0   9777      0  0:00:01  0:00:01 --:--:--  9777eEnabled": false,
+                "autoLinkWorkItems": false
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "prerelease",
+                    "conditionType": "environmentState",
+                    "value": "4"
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {},
+            "preDeploymentGates": {
+                "id": 0,
+                "gatesOptions": {
+                    "isEnabled": false,
+                    "timeout": 1440,
+                    "samplingInterval": 15,
+                    "stabilizationTime": 15
+                },
+                "gates": []
+            },
+            "postDeploymentGates": {
+                "id": 0,
+                "gatesOptions": {
+                    "isEnabled": false,
+                    "timeout": 1440,
+                    "samplingInterval": 15,
+                    "stabilizationTime": 15
+                },
+                "gates": []
+            },
+            "badgeUrl": "https://INSTANCE.vsrm.visualstudio.com/_apis/public/Release/badge/c3f52ddf-7871-4832-9ba7-391a3bf89665/11/20"
+        }
+    ],
+    "artifacts": [],
+    "triggers": [
+        {
+            "artifactAlias": "DSPA.Entities.Template CI",
+            "triggerConditions": [
+                {
+                    "sourceBranch": "develop",
+                    "tags": [],
+                    "useBuildDefinitionBranch": false
+                }
+            ],
+            "triggerType": "artifactSource"
+        },
+        {
+            "artifactAlias": "DSPA.Entities.Template CI",
+            "triggerConditions": [
+                {
+                    "sourceBranch": "master",
+                    "tags": [],
+                    "useBuildDefinitionBranch": false
+                }
+            ],
+            "triggerType": "artifactSource"
+        }
+    ],
+    "releaseNameFormat": "Release-$(rev:r)",
+    "_links": {},
+    "tags": [],
+    "pipelineProcess": {
+        "type": "designer"
+    },
+    "properties": {
+        "DefinitionCreationSource": {
+            "$type": "System.String",
+            "$value": "ReleaseClone"
+        }
+    }
+}

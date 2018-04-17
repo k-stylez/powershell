@@ -1,0 +1,61 @@
+name: $(Date:yyyyMMdd).$(Rev:r)
+
+#http://gitversion.readthedocs.io/en/stable/more-info/variables/
+
+queue:
+  name: Hosted VS2017
+steps:
+
+- task: gittools.gitversion.gitversion-task.GitVersion@3
+- task: richardfennellBM.BM-VSTS-Versioning-Task.Version-DotNetCoreAssemblies-Task.VersionDotNetCoreAssemblies@1
+  inputs:
+    Field: 'Version'
+    VersionNumber: '$(GitVersion.MajorMinorPatch).$(GitVersion.CommitsSinceVersionSource)'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore NuGet Packages
+  inputs:
+    command: 'restore'
+    projects: '**/src/DSPA.*.sln'
+    vstsFeed: "75b4cc39-5fcb-4988-9982-1735fe26e096"
+
+- task: DotNetCoreCLI@2
+  displayName: Build Project
+  inputs:
+    projects: '**/*.csproj'
+    arguments: "--configuration $(BuildConfiguration)"  
+    
+- task: PublishSymbols@2
+  displayName: Publish Symbols
+  inputs:
+    SymbolServerType: 'TeamServices'    
+
+- task: DotNetCoreCLI@2
+  displayName: Test Project
+  inputs:
+    command: 'test'
+    projects: '**/*Tests.csproj'
+    arguments: "--configuration $(BuildConfiguration)"    
+
+- task: DotNetCoreCLI@2
+  displayName: Package Project - Pre Release
+  inputs:
+    command: 'custom'
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '/p:PackageVersion=$(GitVersion.MajorMinorPatch).$(GitVersion.CommitsSinceVersionSource)-pre -o $(Build.ArtifactStagingDirectory)/pre'
+
+- task: DotNetCoreCLI@2
+  displayName: Package Project - Release
+  inputs:
+    command: 'custom'
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '/p:PackageVersion=$(GitVersion.MajorMinorPatch).$(GitVersion.CommitsSinceVersionSource) -o $(Build.ArtifactStagingDirectory)/release'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Buid Artifacts
+  inputs:
+    PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+    ArtifactName: "output"
+    ArtifactType: "Container"
